@@ -22,9 +22,6 @@ class Solution:
         return True
     
 
-
-
-
 if __name__ == "__main__":
     sol = Solution()
     tests = [
@@ -45,3 +42,12 @@ if __name__ == "__main__":
     if passed_all:
         print("All Tests Passed")
 
+
+
+
+
+# ---------------------------- Other Solutions --------------------------------
+def isAnagram(self, s: str, t: str) -> bool:
+    s = sorted(s)
+    t = sorted(t)
+    return s == t

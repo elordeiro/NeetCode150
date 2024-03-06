@@ -6,7 +6,6 @@ class Solution:
         return len(set_nums) != len(nums)
 
 
-
 if __name__ == "__main__":
     sol = Solution()
     tests = [
