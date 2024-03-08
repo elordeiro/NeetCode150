@@ -24,3 +24,4 @@ if __name__ == "__main__":
     if passed_all:
         print("All Tests Passed")
 
+# ---------------------------- Other Solutions --------------------------------

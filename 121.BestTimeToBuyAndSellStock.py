@@ -3,13 +3,14 @@ class Solution:
         n = len(prices)
         i, j, profit = 0, 0, 0
         
-        while i < n:
-            j = i + 1
-            while j < n and prices[j] > prices[i]:
+        while j < n:
+            if prices[j] < prices[i]:
+                i = j
+            else:
                 profit = max(profit, prices[j] - prices[i])
-                j += 1
-            i = j
-        return profit 
+            j += 1
+        
+        return profit
 
 
 
@@ -36,3 +37,19 @@ if __name__ == "__main__":
     if passed_all:
         print("All Tests Passed")
 
+
+
+
+
+# ---------------------------- Other Solutions --------------------------------
+def maxProfit(self, prices: list[int]) -> int:
+    n = len(prices)
+    i, j, profit = 0, 0, 0
+    
+    while i < n:
+        j = i + 1
+        while j < n and prices[j] > prices[i]:
+            profit = max(profit, prices[j] - prices[i])
+            j += 1
+        i = j
+    return profit 
