@@ -12,7 +12,10 @@ if __name__ == "__main__":
     ]
     
     passed_all = True
+    test_only = 0
     for i, test in enumerate(tests, 1):
+        if test_only and test_only != i:
+            continue
         x, expected = test
         actual = sol.method(x)
         if actual != expected:
