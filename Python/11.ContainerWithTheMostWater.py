@@ -18,10 +18,6 @@ class Solution:
                 j -= 1
             
         return max_area
- 
-
-
-
 
 
 if __name__ == "__main__":
