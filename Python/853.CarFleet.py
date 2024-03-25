@@ -16,11 +16,6 @@ class Solution:
         return len(stack)
 
 
-
-
-
-
-
 if __name__ == "__main__":
     sol = Solution()
     tests = [
