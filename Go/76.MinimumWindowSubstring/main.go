@@ -54,7 +54,7 @@ func main() {
 		t        string
 		expected string
 	}{
-		// {"ADOBECODEBANC", "ABC", "BANC"},
+		{"ADOBECODEBANC", "ABC", "BANC"},
 		{"a", "a", "a"},
 		{"a", "aa", ""},
 		{"a", "b", ""},
@@ -62,7 +62,7 @@ func main() {
 		{"aa", "aa", "aa"},
 		{"bba", "ab", "ba"},
 		{"bbaac", "aba", "baa"},
-		// {"aaaaaaaaaaaabbbbbcdd", "abcdd", "abbbbbcdd"},
+		{"aaaaaaaaaaaabbbbbcdd", "abcdd", "abbbbbcdd"},
 	}
 
 	passed_all := true

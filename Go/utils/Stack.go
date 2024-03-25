@@ -1,4 +1,4 @@
-package main
+package utils
 
 type Stack struct {
 	stack []int
@@ -10,7 +10,7 @@ func newStack() *Stack {
 	return &Stack{
 		stack: make([]int, 4, 4),
 		len:   0,
-		cap:   2,
+		cap:   4,
 	}
 }
 
