@@ -32,10 +32,6 @@ class Solution:
         return s[minWindow[0]:minWindow[1]]
 
 
-
-
-
-
 if __name__ == "__main__":
     sol = Solution()
     tests = [
