@@ -29,8 +29,6 @@ class Solution:
         return False
 
 
-
-
 if __name__ == "__main__":
     sol = Solution()
     tests = [
