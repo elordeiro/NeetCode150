@@ -27,7 +27,7 @@ class Solution:
                 return binSearch(left, mid - 1)
         
         return binSearch(0, len(nums) - 1)
- 
+
 
 if __name__ == "__main__":
     sol = Solution()
