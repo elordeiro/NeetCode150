@@ -50,12 +50,12 @@ func CreatTree(nums []int) *TreeNode {
 		} else {
 			right = null
 		}
-		curr.(*TreeNode).Left = &TreeNode{Val: left}
-		curr.(*TreeNode).Right = &TreeNode{Val: right}
 		if left != null {
+			curr.(*TreeNode).Left = &TreeNode{Val: left}
 			queue.PushRight(curr.(*TreeNode).Left)
 		}
 		if right != null {
+			curr.(*TreeNode).Right = &TreeNode{Val: right}
 			queue.PushRight(curr.(*TreeNode).Right)
 		}
 	}
