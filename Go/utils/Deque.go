@@ -6,19 +6,19 @@ import (
 )
 
 type Node struct {
-	val  interface{}
+	val  any
 	prev *Node
 	next *Node
 }
 
-type Deque struct {
+type deque struct {
 	len   int
 	left  *Node
 	right *Node
 }
 
-func NewDeque() *Deque {
-	dq := new(Deque)
+func Deque() *deque {
+	dq := new(deque)
 	dq.left = new(Node)
 	dq.right = new(Node)
 	dq.left.next = dq.right
@@ -26,7 +26,7 @@ func NewDeque() *Deque {
 	return dq
 }
 
-func (dq *Deque) PushLeft(val interface{}) {
+func (dq *deque) PushLeft(val any) {
 	if dq == nil {
 		return
 	}
@@ -38,7 +38,7 @@ func (dq *Deque) PushLeft(val interface{}) {
 	dq.len++
 }
 
-func (dq *Deque) PushRight(val interface{}) {
+func (dq *deque) PushRight(val any) {
 	if dq == nil {
 		return
 	}
@@ -50,7 +50,7 @@ func (dq *Deque) PushRight(val interface{}) {
 	dq.len++
 }
 
-func (dq *Deque) PopLeft() interface{} {
+func (dq *deque) PopLeft() any {
 	if dq == nil || dq.left.next == dq.right {
 		return math.MinInt
 	}
@@ -61,7 +61,7 @@ func (dq *Deque) PopLeft() interface{} {
 	return first.val
 }
 
-func (dq *Deque) PopRight() interface{} {
+func (dq *deque) PopRight() any {
 	if dq == nil || dq.left == dq.right {
 		return math.MinInt
 	}
@@ -72,23 +72,23 @@ func (dq *Deque) PopRight() interface{} {
 	return last.val
 }
 
-func (dq *Deque) PeekLeft() interface{} {
+func (dq *deque) PeekLeft() any {
 	return dq.left.next.val
 }
 
-func (dq *Deque) PeekRight() interface{} {
+func (dq *deque) PeekRight() any {
 	return dq.right.prev.val
 }
 
-func (dq *Deque) IsEmpty() bool {
+func (dq *deque) IsEmpty() bool {
 	return dq.left.next == dq.right
 }
 
-func (dq *Deque) Length() int {
+func (dq *deque) Length() int {
 	return dq.len
 }
 
-func (dq *Deque) PrintDeque() {
+func (dq *deque) PrintDeque() {
 	if dq == nil || dq.left.next == dq.right {
 		return
 	}

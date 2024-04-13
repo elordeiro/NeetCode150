@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"math"
 	"strconv"
 )
@@ -15,14 +14,6 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-func treeFunction(root *TreeNode) *TreeNode {
-	if root == nil {
-		return nil
-	}
-	root.Left, root.Right = treeFunction(root.Right), treeFunction(root.Left)
-	return root
-}
-
 func CreatTree(nums []int) *TreeNode {
 	if len(nums) == 0 {
 		return nil
@@ -31,7 +22,7 @@ func CreatTree(nums []int) *TreeNode {
 	maxIdx := len(nums)
 	head := &TreeNode{Val: nums[idx]}
 	idx++
-	queue := NewDeque()
+	queue := Deque()
 	queue.PushRight(head)
 
 	for !queue.IsEmpty() {
@@ -62,20 +53,19 @@ func CreatTree(nums []int) *TreeNode {
 	return head
 }
 
-func PrintTree(root *TreeNode) {
+func (root *TreeNode) ToString() string {
 	if root == nil {
-		fmt.Print("[]")
-		return
+		return "[]"
 	}
 
 	res := "["
-	toPrint := NewDeque()
-	queue := NewDeque()
+	toPrint := Deque()
+	queue := Deque()
 	queue.PushRight(root)
 
 	for !queue.IsEmpty() {
 		curr := queue.PopLeft()
-		if curr == null {
+		if curr.(*TreeNode) == nil {
 			toPrint.PushRight(null)
 			continue
 		}
@@ -84,7 +74,7 @@ func PrintTree(root *TreeNode) {
 		queue.PushRight(curr.(*TreeNode).Right)
 	}
 
-	for !toPrint.IsEmpty() && toPrint.PeekRight() != null {
+	for !toPrint.IsEmpty() && toPrint.PeekRight() == null {
 		toPrint.PopRight()
 	}
 
@@ -94,23 +84,15 @@ func PrintTree(root *TreeNode) {
 			res += "null, "
 			continue
 		}
-		res += strconv.Itoa(curr.(int))
+		res += strconv.Itoa(curr.(int)) + ", "
 	}
 
 	res = res[:len(res)-2]
 	res += "]"
-	fmt.Printf("%v\n", res)
+	return res
 }
 
-func PrintTestFailed(actual *TreeNode, expected *TreeNode, testNum int) {
-	fmt.Printf("Test %v Failed:\n", testNum)
-	fmt.Printf("\tActual  : ")
-	PrintTree(actual)
-	fmt.Printf("\tExpected: ")
-	PrintTree(expected)
-}
-
-func compareTrees(tree1 *TreeNode, tree2 *TreeNode) bool {
+func CompareTrees(tree1 *TreeNode, tree2 *TreeNode) bool {
 	if tree1 == nil && tree2 == nil {
 		return true
 	}
@@ -120,35 +102,8 @@ func compareTrees(tree1 *TreeNode, tree2 *TreeNode) bool {
 	if tree1.Val != tree2.Val {
 		return false
 	}
-	if compareTrees(tree1.Left, tree2.Left) {
-		return compareTrees(tree1.Right, tree2.Right)
+	if CompareTrees(tree1.Left, tree2.Left) {
+		return CompareTrees(tree1.Right, tree2.Right)
 	}
 	return false
-}
-
-func mainTree() {
-	tests := []struct {
-		nums1 []int
-		nums2 []int
-	}{
-		{[]int{-1, 4, 2, 7, 1, 3, 6, 9}, []int{-1, 4, 7, 2, 9, 6, 3, 1}},
-	}
-	passedAll := true
-	testOnly := 0
-	for i, test := range tests {
-		if testOnly != 0 && testOnly != i+1 {
-			continue
-		}
-		nums1, nums2 := test.nums1, test.nums2
-		root := CreatTree(nums1)
-		actual := treeFunction(root)
-		expected := CreatTree(nums2)
-		if !compareTrees(actual, expected) {
-			PrintTestFailed(actual, expected, i+1)
-			passedAll = false
-		}
-	}
-	if passedAll {
-		fmt.Println("All Tests Passed")
-	}
 }

@@ -1,8 +1,13 @@
 package utils
 
-type Set map[byte]struct{}
+type Set map[any]struct{}
 
-func (s *Set) add(item byte) *Set {
+func NewSet() *Set {
+	s := make(Set)
+	return &s
+}
+
+func (s *Set) add(item any) *Set {
 	if s == nil {
 		s := make(Set)
 		s[item] = struct{}{}
@@ -12,11 +17,11 @@ func (s *Set) add(item byte) *Set {
 	return s
 }
 
-func (s *Set) remove(item byte) {
+func (s *Set) remove(item any) {
 	delete(*s, item)
 }
 
-func (s *Set) contains(item byte) bool {
+func (s *Set) contains(item any) bool {
 	if s == nil {
 		return false
 	}
