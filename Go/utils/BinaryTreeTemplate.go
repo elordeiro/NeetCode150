@@ -23,7 +23,7 @@ func treeFunction(root *TreeNode) *TreeNode {
 	return root
 }
 
-func creatTree(nums []int) *TreeNode {
+func CreatTree(nums []int) *TreeNode {
 	if nums == nil {
 		return nil
 	}
@@ -62,7 +62,7 @@ func creatTree(nums []int) *TreeNode {
 	return head
 }
 
-func printTree(root *TreeNode) {
+func PrintTree(root *TreeNode) {
 	if root == nil {
 		fmt.Print("[]")
 		return
@@ -102,12 +102,12 @@ func printTree(root *TreeNode) {
 	fmt.Printf("%v\n", res)
 }
 
-func printTestFailed(actual *TreeNode, expected *TreeNode, testNum int) {
+func PrintTestFailed(actual *TreeNode, expected *TreeNode, testNum int) {
 	fmt.Printf("Test %v Failed:\n", testNum)
 	fmt.Printf("\tActual  : ")
-	printTree(actual)
+	PrintTree(actual)
 	fmt.Printf("\tExpected: ")
-	printTree(expected)
+	PrintTree(expected)
 }
 
 func compareTrees(tree1 *TreeNode, tree2 *TreeNode) bool {
@@ -140,11 +140,11 @@ func mainTree() {
 			continue
 		}
 		nums1, nums2 := test.nums1, test.nums2
-		root := creatTree(nums1)
+		root := CreatTree(nums1)
 		actual := treeFunction(root)
-		expected := creatTree(nums2)
+		expected := CreatTree(nums2)
 		if !compareTrees(actual, expected) {
-			printTestFailed(actual, expected, i+1)
+			PrintTestFailed(actual, expected, i+1)
 			passedAll = false
 		}
 	}
