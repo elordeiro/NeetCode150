@@ -43,48 +43,43 @@ func (stk *Stack) peek() *ListNode {
 	return stk.stack[stk.len-1]
 }
 
-func reverseKGroup(head *ListNode, k int) *ListNode {
+func reverseKNode(head *ListNode, k int) (*ListNode, *ListNode, *ListNode) {
+	if head == nil {
+		return nil, nil, nil
+	}
 	curr := head
 	stack := newStack()
-	i := k
-	for curr != nil && i > 0 {
+	for curr != nil && k > 0 {
 		stack.push(curr)
 		curr = curr.Next
-		i--
+		k--
 	}
-	top := stack.pop()
-	newHead := top
+	next := curr
+
+	if curr == nil && k > 0 {
+		return head, nil, nil
+	}
+
+	curr = stack.pop()
+	newHead := curr
+
 	for !stack.isEmpty() {
-		top.Next = stack.pop()
-		top = top.Next
+		curr.Next = stack.pop()
+		curr = curr.Next
 	}
-	top.Next = curr
-	oldTop := top
+	curr.Next = nil
+	return newHead, curr, next
+}
 
-	for curr != nil {
-		stack = newStack()
-		i = k
-		for curr != nil && i > 0 {
-			stack.push(curr)
-			curr = curr.Next
-			i--
-		}
-
-		if stack.len < k {
-			break
-		}
-
-		top = stack.pop()
-		oldTop.Next = top
-
-		for !stack.isEmpty() {
-			top.Next = stack.pop()
-			top = top.Next
-		}
-		oldTop = top
-		top.Next = curr
+func reverseKGroup(head *ListNode, k int) *ListNode {
+	res, tail, next := reverseKNode(head, k)
+	for next != nil {
+		newHead, newTail, newNext := reverseKNode(next, k)
+		tail.Next = newHead
+		tail = newTail
+		next = newNext
 	}
-	return newHead
+	return res
 }
 
 type ListNode struct {
@@ -172,4 +167,48 @@ func main() {
 	if passedAll {
 		fmt.Println("Passed all tests.")
 	}
+}
+
+func altReverseKGroup(head *ListNode, k int) *ListNode {
+	curr := head
+	stack := newStack()
+	i := k
+	for curr != nil && i > 0 {
+		stack.push(curr)
+		curr = curr.Next
+		i--
+	}
+	top := stack.pop()
+	newHead := top
+	for !stack.isEmpty() {
+		top.Next = stack.pop()
+		top = top.Next
+	}
+	top.Next = curr
+	oldTop := top
+
+	for curr != nil {
+		stack = newStack()
+		i = k
+		for curr != nil && i > 0 {
+			stack.push(curr)
+			curr = curr.Next
+			i--
+		}
+
+		if stack.len < k {
+			break
+		}
+
+		top = stack.pop()
+		oldTop.Next = top
+
+		for !stack.isEmpty() {
+			top.Next = stack.pop()
+			top = top.Next
+		}
+		oldTop = top
+		top.Next = curr
+	}
+	return newHead
 }

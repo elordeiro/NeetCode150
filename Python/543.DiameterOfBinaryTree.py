@@ -9,62 +9,51 @@ class TreeNode:
         self.right = right
 
 class Solution:
-    def method(self, head: Optional[TreeNode]) -> Optional[TreeNode]:
-        return None
+     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        max_diameter = 0
+        def recur(root: Optional[TreeNode]) -> int:
+            if not root:
+                return -1
+            nonlocal max_diameter
+            left = recur(root.left)
+            right = recur(root.right)
+            height = 1 + max(left, right)
+            max_diameter = max(max_diameter, left + right + 2)
+            return height
+        
+        recur(root)
+        return max_diameter
+
 
 def create_tree(nums: List[int], idx) -> TreeNode:
-    if not nums:
+    if idx >= len(nums):
         return None
-    head = TreeNode(nums.pop(0))
-    queue = [head]
-    while queue:
-        curr = queue.pop(0)
-        left = nums.pop(0) if nums else None
-        right = nums.pop(0) if nums else None
-        curr.left = TreeNode(left)
-        curr.right = TreeNode(right)
-        if left != None:
-            queue.append(curr.left)
-        if right != None:
-            queue.append(curr.right)
-    return head
+    root = TreeNode(val=nums[idx])
+    root.left = create_tree(nums, 2 * idx)
+    root.right = create_tree(nums, 2 * idx + 1)
+    return root
 
 def print_tree(root: Optional[TreeNode]):
     if not root:
         print('[]')
         return
     res = "["
-    stack = []
-    queue = [root]
-    while queue:
-        curr = queue.pop(0)
-        if not curr:
-            stack.append(None)
-            continue
-        stack.append(curr.val)
-        queue.append(curr.left)
-        queue.append(curr.right)
-    
-    while stack and stack[-1] == None:
-        stack.pop()
-    
-    while stack:
-        curr = stack.pop(0)
-        if curr == None:
-            res += 'null, '
-            continue
-        res += str(curr) + ', '
-    
+    def recur(root: Optional[TreeNode]):
+        nonlocal res
+        if not root:
+            return
+        res += str(root.val) + ', '
+        recur(root.left)
+        recur(root.right)
+    recur(root)
     res = res[:-2]
     res += ']'
     print(res)
 
 def print_test_failed(actual: Optional[TreeNode], expected: Optional[TreeNode], test_num: int) -> None:
     print(f"Test {test_num} Failed:")
-    print(f"\tActual  : ", end="")
-    print_tree(actual)
-    print(f"\tExpected: ", end="")
-    print_tree(expected)
+    print(f"\tActual  : {actual}")
+    print(f"\tExpected: {expected}")
 
 def compare_tree(tree1: TreeNode, tree2: TreeNode) -> bool:
     if not tree1 and not tree2:
@@ -80,7 +69,7 @@ def compare_tree(tree1: TreeNode, tree2: TreeNode) -> bool:
 if __name__ == "__main__":
     sol = Solution()
     tests = [
-        ([-1,1,2,3,4,5], [-1,5,4,3,2,1])
+        ([-1,1,2,3,4,5], 3)
     ]
 
     passed_all = True
@@ -88,11 +77,10 @@ if __name__ == "__main__":
     for i, test in enumerate(tests, 1):
         if test_only and test_only != i:
             continue
-        nums1, nums2 = test
+        nums1, expected = test
         root = create_tree(nums1, 1)
-        actual = sol.method(root)
-        expected = create_tree(nums2, 1)
-        if not compare_tree(actual, expected):
+        actual = sol.diameterOfBinaryTree(root)
+        if actual != expected:
             print_test_failed(actual, expected, i)
             passed_all = False
     if passed_all:
