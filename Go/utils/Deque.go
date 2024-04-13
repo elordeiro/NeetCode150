@@ -12,6 +12,7 @@ type Node struct {
 }
 
 type Deque struct {
+	len   int
 	left  *Node
 	right *Node
 }
@@ -34,6 +35,7 @@ func (dq *Deque) PushLeft(val interface{}) {
 	node.next = dq.left.next
 	dq.left.next.prev = &node
 	dq.left.next = &node
+	dq.len++
 }
 
 func (dq *Deque) PushRight(val interface{}) {
@@ -45,6 +47,7 @@ func (dq *Deque) PushRight(val interface{}) {
 	node.prev = dq.right.prev
 	dq.right.prev.next = &node
 	dq.right.prev = &node
+	dq.len++
 }
 
 func (dq *Deque) PopLeft() interface{} {
@@ -54,6 +57,7 @@ func (dq *Deque) PopLeft() interface{} {
 	first := dq.left.next
 	dq.left.next = first.next
 	first.next.prev = dq.left
+	dq.len--
 	return first.val
 }
 
@@ -64,6 +68,7 @@ func (dq *Deque) PopRight() interface{} {
 	last := dq.right.prev
 	dq.right.prev = last.prev
 	last.prev.next = dq.right
+	dq.len--
 	return last.val
 }
 
@@ -77,6 +82,10 @@ func (dq *Deque) PeekRight() interface{} {
 
 func (dq *Deque) IsEmpty() bool {
 	return dq.left.next == dq.right
+}
+
+func (dq *Deque) Length() int {
+	return dq.len
 }
 
 func (dq *Deque) PrintDeque() {
