@@ -16,6 +16,7 @@ func levelOrder(root *TreeNode) [][]int {
 	}
 	res := [][]int{}
 	queue := NewDeque()
+	queue.PushRight(root)
 	for !queue.IsEmpty() {
 		level := []int{}
 		for range queue.Length() {
@@ -52,8 +53,8 @@ func main() {
 		nums1, expected := test.nums1, test.nums2
 		root := CreatTree(nums1)
 		actual := levelOrder(root)
-		if reflect.DeepEqual(actual, expected) {
-			fmt.Printf("Test %v Failed", i+1)
+		if !reflect.DeepEqual(actual, expected) {
+			fmt.Printf("Test %v Failed\n", i+1)
 			fmt.Printf("\tActual  :  %v\n", actual)
 			fmt.Printf("\tExpected:  %v\n", expected)
 			passedAll = false

@@ -1,6 +1,6 @@
 from typing import List 
 from typing import Optional
-
+from collections import deque
 null = None
 
 # Definition for a binary tree node.
@@ -11,8 +11,24 @@ class TreeNode:
         self.right = right
 
 class Solution:
-    def method(self, head: Optional[TreeNode]) -> Optional[TreeNode]:
-        return None
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if not root:
+            return []
+        res = []
+        queue = deque([root])
+        while queue:
+            level = []
+            for _ in range(len(queue)):
+                node = queue.popleft()
+                level.append(node.val)
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+
+            res.append(level)
+        return res
+
 
 def create_tree(nums: List[int], idx) -> TreeNode:
     if not nums:
@@ -63,10 +79,8 @@ def print_tree(root: Optional[TreeNode]):
 
 def print_test_failed(actual: Optional[TreeNode], expected: Optional[TreeNode], test_num: int) -> None:
     print(f"Test {test_num} Failed:")
-    print(f"\tActual  : ", end="")
-    print_tree(actual)
-    print(f"\tExpected: ", end="")
-    print_tree(expected)
+    print(f"\tActual  : {actual}")
+    print(f"\tExpected: {expected}")
 
 def compare_tree(tree1: TreeNode, tree2: TreeNode) -> bool:
     if not tree1 and not tree2:
@@ -82,7 +96,9 @@ def compare_tree(tree1: TreeNode, tree2: TreeNode) -> bool:
 if __name__ == "__main__":
     sol = Solution()
     tests = [
-        ([-1,1,2,3,4,5], [-1,5,4,3,2,1])
+        ([3,9,20,null,null,15,7], [[3],[9,20],[15,7]]),
+        ([1], [[1]]),
+        ([], [])
     ]
 
     passed_all = True
@@ -90,11 +106,10 @@ if __name__ == "__main__":
     for i, test in enumerate(tests, 1):
         if test_only and test_only != i:
             continue
-        nums1, nums2 = test
+        nums1, expected = test
         root = create_tree(nums1, 1)
-        actual = sol.method(root)
-        expected = create_tree(nums2, 1)
-        if not compare_tree(actual, expected):
+        actual = sol.levelOrder(root)
+        if actual != expected:
             print_test_failed(actual, expected, i)
             passed_all = False
     if passed_all:
