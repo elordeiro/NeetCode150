@@ -24,7 +24,7 @@ func treeFunction(root *TreeNode) *TreeNode {
 }
 
 func CreatTree(nums []int) *TreeNode {
-	if nums == nil {
+	if len(nums) == 0 {
 		return nil
 	}
 	idx := 0
