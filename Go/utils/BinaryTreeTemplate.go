@@ -2,8 +2,11 @@ package utils
 
 import (
 	"fmt"
+	"math"
 	"strconv"
 )
+
+var null int = math.MaxInt
 
 // Definition for a binary tree node.
 type TreeNode struct {
@@ -20,14 +23,43 @@ func treeFunction(root *TreeNode) *TreeNode {
 	return root
 }
 
-func creatTree(nums []int, idx int) *TreeNode {
-	if idx >= len(nums) {
+func creatTree(nums []int) *TreeNode {
+	if nums == nil {
 		return nil
 	}
-	root := &TreeNode{Val: nums[idx]}
-	root.Left = creatTree(nums, 2*idx)
-	root.Right = creatTree(nums, 2*idx+1)
-	return root
+	idx := 0
+	maxIdx := len(nums)
+	head := &TreeNode{Val: nums[idx]}
+	idx++
+	queue := NewDeque()
+	queue.PushRight(head)
+
+	for !queue.IsEmpty() {
+		curr := queue.PopLeft()
+		var left int
+		var right int
+		if idx < maxIdx {
+			left = nums[idx]
+			idx++
+		} else {
+			left = null
+		}
+		if idx < maxIdx {
+			right = nums[idx]
+			idx++
+		} else {
+			right = null
+		}
+		curr.(*TreeNode).Left = &TreeNode{Val: left}
+		curr.(*TreeNode).Right = &TreeNode{Val: right}
+		if left != null {
+			queue.PushRight(curr.(*TreeNode).Left)
+		}
+		if right != null {
+			queue.PushRight(curr.(*TreeNode).Right)
+		}
+	}
+	return head
 }
 
 func printTree(root *TreeNode) {
@@ -35,17 +67,36 @@ func printTree(root *TreeNode) {
 		fmt.Print("[]")
 		return
 	}
+
 	res := "["
-	var recur func(root *TreeNode)
-	recur = func(root *TreeNode) {
-		if root == nil {
-			return
+	toPrint := NewDeque()
+	queue := NewDeque()
+	queue.PushRight(root)
+
+	for !queue.IsEmpty() {
+		curr := queue.PopLeft()
+		if curr == null {
+			toPrint.PushRight(null)
+			continue
 		}
-		res += strconv.Itoa(root.Val) + ", "
-		recur(root.Left)
-		recur(root.Right)
+		toPrint.PushRight(curr.(*TreeNode).Val)
+		queue.PushRight(curr.(*TreeNode).Left)
+		queue.PushRight(curr.(*TreeNode).Right)
 	}
-	recur(root)
+
+	for !toPrint.IsEmpty() && toPrint.PeekRight() != null {
+		toPrint.PopRight()
+	}
+
+	for !toPrint.IsEmpty() {
+		curr := toPrint.PopLeft()
+		if curr == null {
+			res += "null, "
+			continue
+		}
+		res += strconv.Itoa(curr.(int))
+	}
+
 	res = res[:len(res)-2]
 	res += "]"
 	fmt.Printf("%v\n", res)
@@ -89,9 +140,9 @@ func mainTree() {
 			continue
 		}
 		nums1, nums2 := test.nums1, test.nums2
-		root := creatTree(nums1, 1)
+		root := creatTree(nums1)
 		actual := treeFunction(root)
-		expected := creatTree(nums2, 1)
+		expected := creatTree(nums2)
 		if !compareTrees(actual, expected) {
 			printTestFailed(actual, expected, i+1)
 			passedAll = false
