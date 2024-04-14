@@ -7,16 +7,16 @@ import (
 
 func TestStack(t *testing.T) {
 	goStack := []int{}
-	customStack := NewStack()
+	customStack := Stack()
 	for range 10 {
 		num := rand.N(100)
 		goStack = append(goStack, num)
-		customStack.push(num)
+		customStack.Push(num)
 	}
 	var testname string
-	for !customStack.isEmpty() {
+	for !customStack.IsEmpty() {
 		num1 := goStack[len(goStack)-1]
-		num2 := customStack.pop()
+		num2 := customStack.Pop()
 		testname = "Test Stack Pop"
 		t.Run(testname, func(t *testing.T) {
 			if num1 != num2 {
