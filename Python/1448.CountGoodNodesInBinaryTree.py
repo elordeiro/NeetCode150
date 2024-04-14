@@ -11,8 +11,21 @@ class TreeNode:
         self.right = right
 
 class Solution:
-    def method(self, head: Optional[TreeNode]) -> Optional[TreeNode]:
-        return None
+    def goodNodes(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        is_good_sum = 0
+        def recur(root: TreeNode, max: int):
+            nonlocal is_good_sum
+            if root.val >= max:
+                is_good_sum += 1
+                max = root.val
+            if root.left:
+                recur(root.left, max)
+            if root.right:
+                recur(root.right, max)
+        recur(root, root.val)
+        return is_good_sum
 
 def create_tree(nums: List[int]) -> TreeNode:
     if not nums:
@@ -61,27 +74,16 @@ def print_tree(root: Optional[TreeNode]):
     res += ']'
     print(res)
 
-def print_test_failed(actual: Optional[TreeNode], expected: Optional[TreeNode], test_num: int) -> None:
-    print(f"Test {test_num} Failed:")
-    print(f"\tActual  : ", end="")
-    print_tree(actual)
-    print(f"\tExpected: ", end="")
-    print_tree(expected)
-
-def compare_tree(tree1: TreeNode, tree2: TreeNode) -> bool:
-    if not tree1 and not tree2:
-        return True
-    if not tree1 or not tree2:
-        return False
-    if tree1.val != tree2.val:
-        return False
-    if compare_tree(tree1.left, tree2.left):
-        return compare_tree(tree1.right, tree2.right)
-    return False
-
 if __name__ == "__main__":
     sol = Solution()
-    tests = []
+    tests = [
+        ([3,1,4,3,null,1,5], 4),
+        ([3,3,null,4,2], 3),
+        ([1], 1),
+        ([2,null,4,10,8,null,null,4], 4),
+        ([9,null,3,6], 1),
+        ([-1,5,-2,4,4,2,-2,null,null,-4,null,-2,3,null,-2,0,null,-1,null,-3,null,-4,-3,3,null,null,null,null,null,null,null,3,-3], 5),
+    ]
 
     passed_all = True
     test_only = 0
@@ -90,7 +92,7 @@ if __name__ == "__main__":
             continue
         nums1, expected = test
         root = create_tree(nums1)
-        actual = None
+        actual = sol.goodNodes(root)
         if actual != expected:
             print(f"Test {i} Failed")
             print(f"\tActual  : {actual}")
