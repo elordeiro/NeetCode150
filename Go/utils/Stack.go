@@ -14,7 +14,7 @@ func Stack() *stack {
 	}
 }
 
-func (stk *stack) Push(val int) {
+func (stk *stack) Push(val any) {
 	if stk.len == stk.cap {
 		stk.stack = append(stk.stack, make([]any, stk.len, stk.cap)...)
 		stk.cap *= 2
