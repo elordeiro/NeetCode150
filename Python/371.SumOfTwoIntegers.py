@@ -1,4 +1,7 @@
 # Solution currently only works with positive numbers due to how Python handles negative numbers
+# In order to make it work in Python we need to mask off the first 32 digits of the number and check if the result is negative
+# Or something like that I'm not sure.
+
 class Solution:
     def getSum(self, a: int, b: int) -> int:
         total, carry = 0, 0
