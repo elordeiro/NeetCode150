@@ -4,9 +4,11 @@ from collections import defaultdict, deque
 class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
         wordList = set(wordList)
+        if endWord not in wordList:
+            return 0
+
         n = len(beginWord)
         charMap = defaultdict(set)
-        
         for word in wordList:
             for i in range(n):
                 charMap[i].add(word[i])
@@ -18,9 +20,7 @@ class Solution:
         fQueue = deque([beginWord])
         bQueue = deque([endWord])
         while fQueue and bQueue:
-            if len(bQueue) > len(fQueue):
-                fQueue, bQueue = bQueue, fQueue
-                fVisited, bVisited = bVisited, fVisited
+            # Forward BFS
             for _ in range(len(fQueue)):
                 word = fQueue.popleft()
                 for i in range(n):
@@ -32,12 +32,21 @@ class Solution:
                             fQueue.append(adj)
                             fVisited.add(adj)
             steps += 1
+            
+            # Backward BFS
+            for _ in range(len(bQueue)):
+                word = bQueue.popleft()
+                for i in range(n):
+                    for char in charMap[i] - set(word[i]):
+                        adj = word[:i] + char + word[i+1:]
+                        if adj in wordList and adj not in bVisited:
+                            if adj in fVisited:
+                                return steps + 1
+                            bQueue.append(adj)
+                            bVisited.add(adj)
+            steps += 1
         return 0
-
-
-
-
-
+    
 
 if __name__ == "__main__":
     sol = Solution()
