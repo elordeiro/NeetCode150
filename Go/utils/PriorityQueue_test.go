@@ -56,7 +56,7 @@ func TestPriorityQueue(t *testing.T) {
 	for _, pair := range tests[1].foods {
 		heap.Push(maxHeap, pair)
 	}
-	t.Run("Testing Min Heap", func(t *testing.T) {
+	t.Run("Testing Max Heap", func(t *testing.T) {
 		for _, fruit := range tests[1].expected {
 			actual := heap.Pop(maxHeap).(pair).fruit
 			if fruit != actual {
