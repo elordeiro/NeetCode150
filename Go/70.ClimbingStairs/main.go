@@ -3,15 +3,15 @@ package main
 import "fmt"
 
 func climbStairs(n int) int {
-	if n == 0 || n == 1 {
-		return 1
-	}
-	dp := make([]int, n+1)
-	dp[0], dp[1] = 1, 1
+	twoDown, oneDown := 1, 1
+
 	for i := 2; i < n+1; i++ {
-		dp[i] = dp[i-1] + dp[i-2]
+		temp := oneDown + twoDown
+		twoDown = oneDown
+		oneDown = temp
 	}
-	return dp[n]
+
+	return oneDown
 }
 
 func main() {
@@ -20,9 +20,10 @@ func main() {
 	}{
 		{2, 2},
 		{3, 3},
-		{44, 1134903170},
+		{5, 8},
+		{44, 1_134_903_170},
 	}
-	testOnly := 0
+	testOnly := 3
 	failed := false
 	for i, test := range tests {
 		if testOnly != 0 && testOnly != i+1 {
