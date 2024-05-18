@@ -2,5 +2,9 @@
     "lldb.displayFormat": "binary",
     "lldb.showDisassembly": "auto",
     "lldb.dereferencePointers": true,
-    "lldb.consoleMode": "commands"
+    "lldb.consoleMode": "commands",
+    "files.associations": {
+        "string": "cpp",
+        "vector": "cpp"
+    }
 }
