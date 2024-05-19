@@ -2,7 +2,6 @@
 #include <vector>
 #include <string>
 #include <unordered_set>
-#include <algorithm> // Add this line
 
 using namespace std;
 
@@ -12,10 +11,10 @@ public:
         int n1 = s.length() + 1;
         unordered_set<string> wordSet(wordDict.begin(), wordDict.end());
         
-        int shortest = (*min_element(wordDict.begin(), wordDict.end(), [](const std::string& a, const std::string& b) {
+        int shortest = (*min_element(wordDict.begin(), wordDict.end(), [](const string& a, const string& b) {
             return a.length() < b.length(); 
         })).length();
-        int longest = (*max_element(wordDict.begin(), wordDict.end(), [](const std::string& a, const std::string& b) {
+        int longest = (*max_element(wordDict.begin(), wordDict.end(), [](const string& a, const string& b) {
             return a.length() < b.length(); 
         })).length();
 

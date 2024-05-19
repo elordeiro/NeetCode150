@@ -1,0 +1,12 @@
+CompileFlags:
+    # Treat code as C++, use C++11 standard, enable more warnings.
+    Add: [-std=c++11]
+    # Remove extra warnings specified in compile commands.
+    # Single value is also acceptable, same as "Remove: [-mabi]"
+    # Remove: -mabi
+    Compiler: clang++
+Diagnostics:
+    # Tweak Clang-Tidy checks.
+    ClangTidy:
+        Add: [performance*, modernize*]
+        Remove: [modernize-use-trailing-return-type]

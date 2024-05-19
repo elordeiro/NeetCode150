@@ -5,6 +5,8 @@
     "lldb.consoleMode": "commands",
     "files.associations": {
         "string": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "algorithm": "cpp",
+        "deque": "cpp"
     }
 }
